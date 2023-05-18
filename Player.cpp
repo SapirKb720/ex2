@@ -1,5 +1,7 @@
 #include "Player.h"
 
+
+
 void Player::initPlayer(const string name, const int maxHP, const int force) {
 	this.name = name;
 	this.maxHP = maxHP;
@@ -19,13 +21,16 @@ Player::Player(const string name, const int maxHP, const int force) {
 	this.initPlayer(name, maxHP, force);
 }
 
+
 Player::Player(const string name, const int maxHP) {
 	this.initPlayer(name, maxHP, DEFAULT_FORCE);
 }
 
+
 Player::Player(const string name) {
 	this.initPlayer(name, DEFAULT_MAX_HP, DEFAULT_FORCE);
 }
+
 
 void Player::copyValues(const Player& other) {
 	this.name = other.name;
@@ -36,21 +41,28 @@ void Player::copyValues(const Player& other) {
 	this.level = other.level;
 }
 
-Player::Player(const Player& other){
+Player::Player(const Player& other) {
 	copyValues(other);
 }
+
 
 Player& Player::operator=(const Player& other) {
-	copyValues(other);
+	Player p(other);
+	return p;
 }
 
+
 void Player::void printInfo()const {
-	printPlayerInfo(this.name, this.level, this.force,this.HP,this.coins);
+	printPlayerInfo(this.name, this.level, this.force, this.HP, this.coins);
 }
+
 
 void Player::levelUp() {
 	this.level++;
+	if (this.level > MAX_LEVEL)
+		this.level = MAX_LEVEL;
 }
+
 
 int Player::getLevel()const {
 	return this.level;
@@ -60,6 +72,7 @@ void Player::buff(const int points) {
 	this.force += points;
 }
 
+
 void Player::heal(const int points) {
 	if (points > 0) {
 		this.HP += points;
@@ -68,6 +81,7 @@ void Player::heal(const int points) {
 		}
 	}
 }
+
 
 void Player::damage(const int points) {
 	if (points > 0) {
@@ -82,6 +96,7 @@ bool Player::isKnockedOut()const {
 	return (this.HP == 0);
 }
 
+
 void Player::addCoins(const int coins) {
 	if (coins >= 0) {
 		this.coins += coins;
@@ -95,6 +110,7 @@ bool pay(const int coins) {
 	}
 	return false; //not enough coins to pay
 }
+
 
 int getAttackStrength()const {
 	return this.force + this.level;
