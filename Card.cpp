@@ -1,8 +1,8 @@
 #include "Card.h"
 
 Card::Card(CardType type, const CardStats& stats) {
-	this.m_effect = type;
-	this.m_stats = stats;
+	this->m_effect = type;
+	this->m_stats = stats;
 }
 
 bool wonAgainstPlayer(Player& player, Card& card) {
@@ -31,26 +31,26 @@ void healPlayer(Player& player, Card& card) {
 }
 
 void Card::applyEncounter(Player& player) const {
-	switch (this.m_effect) {
+	switch (this->m_effect) {
 	case CardType::Battle:
-		if (wonAgainstPlayer(player, this)) {
-			awardPlayer(player, this);
+		if (wonAgainstPlayer(player, *this)) {
+			awardPlayer(player, *this);
 		}
 		else {
-			damagePlayer(player, this);
+			damagePlayer(player, *this);
 		}
 		break;
 
 	case CardType::Buff:
-		buffPlayer(player, this);
+		buffPlayer(player, *this);
 		break;
 
 	case CardType::Heal:
-		healPlayer(player, this);
+		healPlayer(player, *this);
 		break;
 
 	case CardType::Treasure:
-		player.addCoins(this.m_stats.loot);
+		player.addCoins(this->m_stats.loot);
 		break;
 
 	case default:
@@ -59,21 +59,21 @@ void Card::applyEncounter(Player& player) const {
 }
 
 void Card::printInfo() const {
-	switch (this.m_effect) {
+	switch (this->m_effect) {
 	case CardType::Battle:
-		printBattleCardInfo(card.m_stats);
+		printBattleCardInfo(this->m_stats);
 		break;
 
 	case CardType::Buff:
-		printBuffCardInfo(card.m_stats);
+		printBuffCardInfo(this->m_stats);
 		break;
 
 	case CardType::Heal:
-		printHealCardInfo(card.m_stats);
+		printHealCardInfo(this->m_stats);
 		break;
 
 	case CardType::Treasure:
-		printTreasureCardInfo(card.m_stats);
+		printTreasureCardInfo(this->m_stats);
 		break;
 
 	case default:
