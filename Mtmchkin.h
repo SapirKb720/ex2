@@ -13,7 +13,7 @@
  * Win - The player reached level 10.
  * Loss - The player's HP is 0.
 */
-enum class GameStatus{Win, Loss, MidGame};
+enum class GameStatus { Win, Loss, MidGame };
 
 class Mtmchkin {
 public:
@@ -29,6 +29,25 @@ public:
     */
     Mtmchkin(const char* playerName, const Card* cardsArray, int numOfCards);
 
+    /*
+    Copy c'tor of the game
+    gets another mtmchkin game and does a deep copy of the values (copies values, array etc')
+    output:none
+    */
+    Mtmchkin(const Mtmchkin& other);
+
+    /*
+    Function: overload of = operator, deep copies all values of other mtmchkin into this
+    input: a mtmchkin game object
+    output: refrence to this object 
+    */
+    Mtmchkin& operator=(const Mtmchkin& other);
+
+    /*
+    d'tor of the mtmchkin game
+    frees all allocated memory in the mtmchkin object (the cards array)
+    */
+    ~Mtmchkin();
 
     /*
      * Play the next Card - according to the instruction in the exercise document
@@ -57,11 +76,28 @@ public:
      */
     GameStatus getGameStatus() const;
 
-    //TODO: complete the Mtmchkin class.
 
 private:
-    //TODO: complete the Mtmchkin class.
+    /*
+    Function: deep copies all values of other mtmchkin into this
+    input: a mtmchkin game object
+    output: refrence to this object
+    */
+    void copyValues(const Mtmchkin& other);
 
+    /*
+    * Function: creates an initializes an array of cards (based on the given one) in the given size
+    * input: an array of cards, the size of the array
+    * output: the array of cards we created (a copy of the given one)
+    */
+    Card* createNewArray(const Card* cards, int num);
+
+    Player m_player;
+    Card* m_cards;
+    GameStatus m_gameStatus;
+    int m_numOfCards;
+    int m_currCard;
+    const int WIN_LEVEL = 10;
 };
 
 

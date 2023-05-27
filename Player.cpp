@@ -2,8 +2,8 @@
 
 
 
-void Player::initPlayer(const string name, const int maxHP, const int force) {
-	this->name = name;
+void Player::initPlayer(const char* name, const int maxHP, const int force) {
+	this->name = (char*)name;
 	this->maxHP = maxHP;
 	this->force = force;
 	this->coins = 0;
@@ -17,17 +17,17 @@ void Player::initPlayer(const string name, const int maxHP, const int force) {
 	this->HP = maxHP;
 }
 
-Player::Player(const string name, const int maxHP, const int force) {
+Player::Player(const char* name, const int maxHP, const int force) {
 	this->initPlayer(name, maxHP, force);
 }
 
 
-Player::Player(const string name, const int maxHP) {
+Player::Player(const char* name, const int maxHP) {
 	this->initPlayer(name, maxHP, DEFAULT_FORCE);
 }
 
 
-Player::Player(const string name) {
+Player::Player(const char* name) {
 	this->initPlayer(name, DEFAULT_MAX_HP, DEFAULT_FORCE);
 }
 
@@ -55,7 +55,7 @@ Player& Player::operator=(const Player& other) {
 }
 
 
-void Player::void printInfo()const {
+void Player::printInfo()const {
 	printPlayerInfo(this->name, this->level, this->force, this->HP, this->coins);
 }
 
@@ -72,7 +72,8 @@ int Player::getLevel()const {
 }
 
 void Player::buff(const int points) {
-	this->force += points;
+	if(points >= 0)
+		this->force += points;
 }
 
 
@@ -106,7 +107,7 @@ void Player::addCoins(const int coins) {
 	}
 }
 
-bool pay(const int coins) {
+bool Player::pay(const int coins) {
 	if (coins >= 0 && this->coins >= coins) {
 		this->coins -= coins;
 		return true;
@@ -115,6 +116,6 @@ bool pay(const int coins) {
 }
 
 
-int getAttackStrength()const {
+int Player::getAttackStrength()const {
 	return this->force + this->level;
 }

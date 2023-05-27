@@ -5,55 +5,32 @@ Card::Card(CardType type, const CardStats& stats) {
 	this->m_stats = stats;
 }
 
-bool wonAgainstPlayer(Player& player, Card& card) {
-	return (player.getAttackStrength() < card.m_stats.force);
-}
-
-void awardPlayer(Player& player, Card& card) {
-	player.levelUp();
-	player.addCoins(card.m_stats.loot);
-}
-
-void damagePlayer(Player& player, Card& card) {
-	player.damage(card.m_stats.hpLossOnDefeat);
-}
-
-void buffPlayer(Player& player, Card& card) {
-	if (player.pay(card.m_stats.cost)) {
-		player.buff(card.m_stats.buff);
-	}
-}
-
-void healPlayer(Player& player, Card& card) {
-	if (player.pay(card.m_stats.cost)) {
-		player.heal(card.m_stats.heal);
-	}
-}
-
 void Card::applyEncounter(Player& player) const {
+	bool result = false;
 	switch (this->m_effect) {
 	case CardType::Battle:
-		if (wonAgainstPlayer(player, *this)) {
-			awardPlayer(player, *this);
+		result = (player.getAttackStrength() >= this->m_stats.force);
+		if (result) { //if won battle
+			player.levelUp();
+			player.addCoins(this->m_stats.loot);
 		}
-		else {
-			damagePlayer(player, *this);
+		else { //lost - gets damage
+			player.damage(this->m_stats.hpLossOnDefeat);
 		}
+		printBattleResult(result);
 		break;
-
 	case CardType::Buff:
-		buffPlayer(player, *this);
+		if (player.pay(this->m_stats.cost)) { //if has enough money
+			player.buff(this->m_stats.buff);
+		}
 		break;
-
 	case CardType::Heal:
-		healPlayer(player, *this);
+		if (player.pay(this->m_stats.cost)) { //if has enough money
+			player.heal(this->m_stats.heal);
+		}
 		break;
-
 	case CardType::Treasure:
-		player.addCoins(this->m_stats.loot);
-		break;
-
-	case default:
+		player.addCoins(this->m_stats.loot); //looting
 		break;
 	}
 }
@@ -74,9 +51,6 @@ void Card::printInfo() const {
 
 	case CardType::Treasure:
 		printTreasureCardInfo(this->m_stats);
-		break;
-
-	case default:
 		break;
 	}
 }

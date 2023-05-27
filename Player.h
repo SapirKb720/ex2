@@ -1,9 +1,11 @@
+#pragma once
 #ifndef EX2_Player_H
 #define EX2_Player_H
 
 #include <string>
 #include <iostream>
 #include "utilities.h"
+using namespace std;
 
 class Player {
 public:
@@ -12,7 +14,7 @@ public:
 * gets name, maxHP, force
 * intializing the player values according to default values and accepted values
 */
-	Player(const string name, const int maxHP, const int force);
+	Player(const char* name, const int maxHP, const int force);
 
 
 	/*
@@ -20,14 +22,14 @@ public:
 	* gets name, maxHP
 	* intializing the player values according to default values and accepted values
 	*/
-	Player(const string name, const int maxHP);
+	Player(const char* name, const int maxHP);
 
 	/*
 	* construcor
 	* gets name
 	* intializing the player values according to default values and accepted values
 	*/
-	Player(const string name);
+	Player(const char* name);
 
 
 	/*
@@ -133,13 +135,13 @@ private:
 	unput:
 	output:
 	*/
-	void initPlayer(const string name, const int maxHP, const int force);
+	void initPlayer(const char* name, const int maxHP, const int force);
 	void copyValues(const Player& other);
 	const int DEFAULT_MAX_HP = 100;
 	const int DEFAULT_FORCE = 5;
 	const int MIN_LEVEL = 1;
 	const int MAX_LEVEL = 10;
-	string name;
+	char* name;
 	int level;
 	int force;
 	int maxHP;
